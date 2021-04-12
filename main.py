@@ -12,7 +12,7 @@ train_dataset = dl.EnDeDataset(train_embeddings[0][0], train_embeddings[0][1], t
 test_dataset = dl.EnDeDataset(test_embeddings[0][0], test_embeddings[0][1], test_embeddings[1])
 dataset_sizes = {'train': len(train_dataset), 'val': len(test_dataset)}
 
-model = cm.ContrastiveModel()
+model = cm.ContrastiveModel().to(device)
 
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
