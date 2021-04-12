@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 from transformers import AdamW
 import datetime
 import copy
+import numpy as np
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
@@ -19,12 +20,12 @@ model = cm.ContrastiveModel().to(device)
 
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
-optim = AdamW(model.parameters(), lr=1e-3)
+optim = AdamW(model.parameters(), lr=1e-4)
 
-num_epochs = 3
+num_epochs = 25
 best_model_wts = copy.deepcopy(model.state_dict())
 best_loss = np.inf
-for epoch in range(3):
+for epoch in range(num_epochs):
     print('Epoch {}/{}'.format(epoch, num_epochs - 1))
     print('-' * 10)
     for phase in ['train', 'val']:
