@@ -16,7 +16,7 @@ def read_en_de_split(data_dir, train=True):
     # for i in list(data['mean']):
     #     if i[0] == '[':
     #         print(list(data['mean']).index(i))
-    qualities = list(data['mean'].astype('float32')/100.0)
+    qualities = list(data['z_mean'].astype('float32'))
     return texts, qualities
 
 def get_train_test_embeddings():
