@@ -4,6 +4,8 @@ import model.contrastive_model as cm
 import torch
 from torch.utils.data import DataLoader
 from transformers import AdamW
+import datetime
+import copy
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
@@ -17,9 +19,11 @@ model = cm.ContrastiveModel().to(device)
 
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
-optim = AdamW(model.parameters(), lr=5e-3)
+optim = AdamW(model.parameters(), lr=1e-3)
 
 num_epochs = 3
+best_model_wts = copy.deepcopy(model.state_dict())
+best_loss = np.inf
 for epoch in range(3):
     print('Epoch {}/{}'.format(epoch, num_epochs - 1))
     print('-' * 10)
@@ -58,3 +62,9 @@ for epoch in range(3):
 
         print('{} Loss: {:.4f}'.format(
             phase, epoch_loss))
+
+        if phase == 'val' and epoch_loss < best_loss:
+            best_loss = epoch_loss
+            best_model_wts = copy.deepcopy(model.state_dict())
+
+torch.save(best_model_wts, 'best_model_' + datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
