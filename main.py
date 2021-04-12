@@ -8,6 +8,7 @@ from transformers import AdamW
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 train_embeddings, test_embeddings = dl.get_train_test_embeddings()
+
 train_dataset = dl.EnDeDataset(train_embeddings[0][0], train_embeddings[0][1], train_embeddings[1])
 test_dataset = dl.EnDeDataset(test_embeddings[0][0], test_embeddings[0][1], test_embeddings[1])
 dataset_sizes = {'train': len(train_dataset), 'val': len(test_dataset)}

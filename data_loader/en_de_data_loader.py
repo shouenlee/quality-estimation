@@ -27,8 +27,9 @@ def get_train_test_embeddings():
     train_texts, train_qualities = read_en_de_split('./data/en-de')
     test_texts, test_qualities = read_en_de_split('./data/en-de', train=False)
 
-    train_encodings = ((tokenizer(train_texts[0], truncation=True, padding=True), de_tokenizer(train_texts[1], truncation=True, padding=True)), train_qualities)
-    test_encodings = ((tokenizer(test_texts[0], truncation=True, padding=True), de_tokenizer(test_texts[1], truncation=True, padding=True)), test_qualities)
+    print(max([len(i) for i in train_texts[0]]), max([len(i) for i in train_texts[1]]))
+    train_encodings = ((tokenizer(train_texts[0], max_length=201, truncation=True, padding='max_length'), de_tokenizer(train_texts[1], max_length=201, truncation=True, padding='max_length')), train_qualities)
+    test_encodings = ((tokenizer(test_texts[0], max_length=201, truncation=True, padding='max_length'), de_tokenizer(test_texts[1], max_length=201, truncation=True, padding='max_length')), test_qualities)
     return train_encodings, test_encodings
 
 
