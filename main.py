@@ -45,7 +45,7 @@ for epoch in range(3):
             with torch.set_grad_enabled(phase == 'train'):
                 outputs = model(original_input_ids=original_input_ids, original_attention_mask=original_attention_mask, translation_input_ids=translation_input_ids, 
                                 translation_attention_mask=translation_attention_mask)
-                loss = torch.nn.MSELoss()(outputs, qualities)
+                loss = torch.nn.MSELoss()(outputs[:, 0], qualities)
 
                 if phase == 'train':
                     loss.backward()
