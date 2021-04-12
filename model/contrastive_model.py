@@ -26,11 +26,8 @@ class ContrastiveModel(torch.nn.Module):
         original_attention = self.original_transformer(input_ids=original_input_ids, attention_mask=original_attention_mask)['last_hidden_state']
         translation_attention = self.translation_transformer(input_ids=translation_input_ids, attention_mask=translation_attention_mask)['last_hidden_state']
 
-        print(original_attention.shape)
-        print(translation_attention.shape)
         original_encoded = self.original_norm(self.original_linear(torch.flatten(original_attention, start_dim=1)))
         translation_encoded = self.translation_norm(self.translation_linear(torch.flatten(translation_attention, start_dim=1)))
 
         y_pred = self.final_linear(torch.cat([original_encoded, translation_encoded], 1))
-        print(y_pred.shape)
         return y_pred

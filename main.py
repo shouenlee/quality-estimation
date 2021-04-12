@@ -16,7 +16,7 @@ model = cm.ContrastiveModel()
 
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
-optim = AdamW(model.parameters(), lr=5e-5)
+optim = AdamW(model.parameters(), lr=5e-3)
 
 num_epochs = 3
 for epoch in range(3):
@@ -45,7 +45,7 @@ for epoch in range(3):
             with torch.set_grad_enabled(phase == 'train'):
                 outputs = model(original_input_ids=original_input_ids, original_attention_mask=original_attention_mask, translation_input_ids=translation_input_ids, 
                                 translation_attention_mask=translation_attention_mask)
-                loss = torch.nn.MSELoss()(outputs[0], qualities)
+                loss = torch.nn.MSELoss()(outputs, qualities)
 
                 if phase == 'train':
                     loss.backward()
